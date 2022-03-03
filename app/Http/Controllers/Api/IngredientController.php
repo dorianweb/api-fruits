@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\IngredientResource;
 use App\Models\Ingredient;
+use Exception;
 use Illuminate\Http\Request;
 
 class IngredientController extends Controller
@@ -15,7 +17,7 @@ class IngredientController extends Controller
      */
     public function index()
     {
-        //
+        return   IngredientResource::collection(Ingredient::all());
     }
 
     /**
@@ -26,7 +28,28 @@ class IngredientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            $request->validate([
+                'name' => 'string|min:3',
+                'icon' => 'string',
+                'unit' => 'string',
+                'external_id' => 'int',
+            ]);
+            $ingredient = Ingredient::firstOrNew([
+                'name' => $request->name,
+                'external_id' => $request->external_id,
+            ]);
+            $ingredient->name = $request->name;
+            $ingredient->icon = $request->icon;
+            $ingredient->unit = $request->unit;
+            $ingredient->external_id = $request->external_id;
+            if ($ingredient->save()) {
+                return new IngredientResource($ingredient);
+            }
+        } catch (Exception $e) {
+            return ($e);
+        }
     }
 
     /**

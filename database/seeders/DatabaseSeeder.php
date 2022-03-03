@@ -22,27 +22,32 @@ class DatabaseSeeder extends Seeder
                 'name' => 'salade',
                 'icon' => 'xxxx.png',
                 'unit' => 'g',
+                'external_id' => 125,
             ],
             [
                 'name' => 'tomate',
                 'icon' => 'yyy.png',
                 'unit' => 'g',
+                'external_id' => 158,
             ],
             [
                 'name' => 'concombre',
                 'icon' => 'zzzz.png',
                 'unit' => 'g',
+                'external_id' => 15,
             ],
             [
                 'name' => 'kebab',
                 'icon' => '1111.png',
                 'unit' => 'g',
+                'external_id' => 189,
             ],
 
             [
                 'name' => 'lait',
                 'icon' => 'gggg.png',
                 'unit' => 'cl',
+                'external_id' => 1025,
             ],
 
         ])->each(function ($ingredient, $index) {
@@ -50,6 +55,7 @@ class DatabaseSeeder extends Seeder
                 'name' => $ingredient["name"],
                 'icon' => $ingredient["icon"],
                 'unit' => $ingredient["unit"],
+                'external_id' => $ingredient['external_id'],
                 'created_at' => Carbon::now(),
             ]);
         });

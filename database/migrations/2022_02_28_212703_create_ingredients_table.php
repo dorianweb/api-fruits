@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('icon');
             $table->string('unit');
+            $table->integer('external_id');
             $table->timestamps();
         });
     }

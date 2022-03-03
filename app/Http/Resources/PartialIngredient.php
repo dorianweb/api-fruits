@@ -2,14 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Ingredient;
-use App\Http\Resources\IngredientResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RecipeResource extends JsonResource
+class PartialIngredient extends JsonResource
 {
-    public static $wrap = null;
-
     /**
      * Transform the resource into an array.
      *
@@ -20,8 +16,9 @@ class RecipeResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'ingredients' =>  IngredientResource::collection($this->whenLoaded('ingredients')),
+            'quantity' => $this->whenPivotLoaded('ingredient_recipe', function () {
+                return $this->pivot->quantity;
+            }),
         ];
     }
 }

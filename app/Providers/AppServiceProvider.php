@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\IngredientCollection;
+use App\Http\Resources\IngredientResource;
+use App\Http\Resources\RecipeResource;
+use App\Models\Ingredient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        RecipeResource::withoutWrapping();
+        IngredientResource::withoutWrapping();
+        IngredientCollection::withoutWrapping();
     }
 }
