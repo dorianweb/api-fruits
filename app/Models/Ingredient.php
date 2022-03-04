@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ingredient extends Model
 {
+    use HasFactory;
     protected $fillable = [
         "name",
         "icon",
         "unit",
         "external_id"
     ];
-    use HasFactory;
     function recipes()
     {
         return $this->belongsToMany(Recipe::class)->withPivot('quantity');
