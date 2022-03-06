@@ -32,7 +32,6 @@ class RecipeController extends Controller
     public function store(Request $request)
     {
         try {
-
             $request->validate([
                 'name' => '',
                 'ingredient' => 'array',
@@ -49,7 +48,7 @@ class RecipeController extends Controller
                 return new PartialRecipe($recipe);
             }
         } catch (Exception $e) {
-            return ($e);
+            return response(['error' => $e], 400);
         }
     }
 
@@ -91,10 +90,10 @@ class RecipeController extends Controller
                 foreach ($request->ingredients as $ingredient) {
                     $recipe->ingredients()->attach($ingredient[0], ['quantity' => $ingredient[1]]);
                 }
-                return new PartialRecipe($recipe);
+                return new PartialRecipe(Recipe::with('ingredients')->find($recipe->id));
             }
         } catch (Exception $e) {
-            return ($e);
+            return response(['error' => $e], 400);
         }
     }
 
@@ -106,14 +105,10 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
-        try {
-            $recipe = $recipe->load('ingredients');
-            $recipe->ingredients()->detach();
-            if ($recipe->delete()) {
-                return ["deleted" => true];
-            }
-        } catch (Exception $e) {
-            return $e;
+        $recipe = $recipe->load('ingredients');
+        $recipe->ingredients()->detach();
+        if ($recipe->delete()) {
+            return ["deleted" => true];
         }
     }
 }
